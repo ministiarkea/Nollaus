@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linnunpesä ✦ Siivousrutiinit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #faf7f2;
+      --warm-white: #fff9f4;
+      --sage: #8aab8e;
+      --sage-light: #c4d9c6;
+      --sage-pale: #e8f0e9;
+      --terracotta: #c47a5a;
+      --terracotta-light: #f0d5c8;
+      --charcoal: #2d2d2a;
+      --mid-grey: #6b6b66;
+      --light-grey: #d9d5ce;
+      --done-bg: #e8f0e9;
+      --done-text: #5a8a5e;
+      --shadow: 0 2px 16px rgba(45,45,42,0.07);
+      --shadow-hover: 0 6px 24px rgba(45,45,42,0.13);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background: var(--warm-white);
+      border-bottom: 1px solid var(--light-grey);
+      padding: 28px 24px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    .header-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .header-left h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--charcoal);
+      letter-spacing: -0.02em;
+    }
+    .header-left h1 span {
+      color: var(--sage);
+    }
+    .header-left .subtitle {
+      font-size: 0.78rem;
+      color: var(--mid-grey);
+      margin-top: 4px;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .date-badge {
+      background: var(--sage-pale);
+      color: var(--sage);
+      border-radius: 40px;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* ─── TABS ─── */
+    .tab-bar {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 24px 0;
+      display: flex;
+      gap: 8px;
+    }
+    .tab-btn {
+      background: none;
+      border: 1.5px solid var(--light-grey);
+      border-radius: 40px;
+      padding: 8px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--mid-grey);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--charcoal);
+      border-color: var(--charcoal);
+      color: white;
+    }
+    .tab-btn:hover:not(.active) {
+      border-color: var(--charcoal);
+      color: var(--charcoal);
+    }
+
+    /* ─── MAIN CONTENT ─── */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 24px 0;
+    }
+
+    /* ─── DAY PROGRESS ─── */
+    .progress-card {
+      background: var(--warm-white);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .progress-ring-wrap {
+      flex-shrink: 0;
+      position: relative;
+      width: 68px;
+      height: 68px;
+    }
+    .progress-ring-wrap svg { transform: rotate(-90deg); }
+    .progress-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+    .progress-text { flex: 1; }
+    .progress-text strong {
+      font-family: 'Fraunces', serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .progress-text span {
+      font-size: 0.8rem;
+      color: var(--mid-grey);
+    }
+    .reset-btn {
+      background: none;
+      border: 1.5px solid var(--light-grey);
+      border-radius: 40px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--mid-grey);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .reset-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
+
+    /* ─── SECTIONS ─── */
+    .section {
+      margin-bottom: 20px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      padding: 0 2px;
+    }
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .section-icon.morning { background: #fdebd0; }
+    .section-icon.day     { background: #d5eaf5; }
+    .section-icon.evening { background: var(--terracotta-light); }
+    .section-icon.night   { background: #e0daf5; }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--charcoal);
+      letter-spacing: -0.01em;
+    }
+    .section-time {
+      font-size: 0.72rem;
+      color: var(--mid-grey);
+      margin-left: auto;
+      font-weight: 300;
+    }
+
+    /* ─── TASK CARD ─── */
+    .task-card {
+      background: var(--warm-white);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1.5px solid transparent;
+      box-shadow: var(--shadow);
+      user-select: none;
+    }
+    .task-card:hover { border-color: var(--sage-light); box-shadow: var(--shadow-hover); }
+    .task-card.done {
+      background: var(--done-bg);
+      box-shadow: none;
+    }
+    .task-card.done .task-title { color: var(--done-text); text-decoration: line-through; text-decoration-color: var(--sage); }
+    .task-card.done .task-time { color: var(--done-text); opacity: 0.6; }
+
+    .checkbox {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--light-grey);
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .task-card.done .checkbox {
+      background: var(--sage);
+      border-color: var(--sage);
+      color: white;
+    }
+    .checkbox-check { font-size: 0.7rem; opacity: 0; transition: opacity 0.15s; }
+    .task-card.done .checkbox-check { opacity: 1; }
+
+    .task-body { flex: 1; }
+    .task-time {
+      font-size: 0.72rem;
+      color: var(--mid-grey);
+      font-weight: 300;
+      display: block;
+      margin-bottom: 1px;
+      letter-spacing: 0.02em;
+    }
+    .task-title {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--charcoal);
+      line-height: 1.35;
+    }
+
+    /* ─── GOLDEN RULES ─── */
+    .rules-card {
+      background: var(--charcoal);
+      color: var(--cream);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-top: 8px;
+      margin-bottom: 24px;
+    }
+    .rules-card h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      margin-bottom: 14px;
+      color: var(--sage-light);
+      letter-spacing: 0.02em;
+    }
+    .rule-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      font-weight: 300;
+      color: #ccc8c2;
+    }
+    .rule-num {
+      background: var(--sage);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ─── MONTHLY VIEW ─── */
+    .monthly-progress-card {
+      background: var(--warm-white);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    .monthly-stats {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'Fraunces', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--charcoal);
+      display: block;
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.72rem; color: var(--mid-grey); margin-top: 2px; }
+    .stat-divider { width: 1px; height: 36px; background: var(--light-grey); }
+
+    .monthly-section { margin-bottom: 24px; }
+    .monthly-section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .room-icon {
+      font-size: 1.1rem;
+    }
+    .monthly-section-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      flex: 1;
+    }
+    .room-progress-text {
+      font-size: 0.75rem;
+      color: var(--mid-grey);
+    }
+
+    .monthly-task {
+      background: var(--warm-white);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1.5px solid transparent;
+      box-shadow: var(--shadow);
+      user-select: none;
+    }
+    .monthly-task:hover { border-color: var(--sage-light); }
+    .monthly-task.done {
+      background: var(--done-bg);
+      box-shadow: none;
+    }
+    .monthly-task.done .monthly-task-name {
+      color: var(--done-text);
+      text-decoration: line-through;
+      text-decoration-color: var(--sage);
+    }
+    .monthly-task .checkbox { margin-top: 0; }
+    .monthly-task-name {
+      font-size: 0.88rem;
+      color: var(--charcoal);
+      flex: 1;
+    }
+    .last-done {
+      font-size: 0.7rem;
+      color: var(--mid-grey);
+      white-space: nowrap;
+    }
+
+    .reset-month-btn {
+      display: block;
+      width: 100%;
+      background: none;
+      border: 1.5px dashed var(--light-grey);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      color: var(--mid-grey);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+    .reset-month-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
+
+    /* ─── HIDDEN VIEWS ─── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ─── CONFETTI POP ─── */
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+    .popped { animation: pop 0.25s ease; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <h1>Linnun<span>pesä</span></h1>
+      <div class="subtitle">56m² · 6 henkeä · Siivousrutiinit</div>
+    </div>
+    <div class="date-badge" id="dateBadge"></div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('daily')">Päivittäinen</button>
+  <button class="tab-btn" onclick="switchTab('monthly')">Suursiivous</button>
+</div>
+
+<!-- ─── DAILY VIEW ─── -->
+<div class="container">
+  <div class="view active" id="view-daily">
+
+    <div style="height:20px"></div>
+
+    <!-- Progress -->
+    <div class="progress-card">
+      <div class="progress-ring-wrap">
+        <svg width="68" height="68" viewBox="0 0 68 68">
+          <circle cx="34" cy="34" r="28" fill="none" stroke="#e8e5df" stroke-width="5"/>
+          <circle id="progressCircle" cx="34" cy="34" r="28" fill="none" stroke="#8aab8e" stroke-width="5"
+            stroke-dasharray="175.9" stroke-dashoffset="175.9" stroke-linecap="round" style="transition:stroke-dashoffset 0.5s ease"/>
+        </svg>
+        <div class="progress-label" id="progressPct">0%</div>
+      </div>
+      <div class="progress-text">
+        <strong id="progressMsg">Päivä alkaa ✦</strong>
+        <span id="progressSub">0 / 0 tehtävää tehty</span>
+      </div>
+      <button class="reset-btn" onclick="resetDay()">Nollaa päivä</button>
+    </div>
+
+    <!-- MORNING -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon morning">🌅</div>
+        <div class="section-title">Aamu — Startti</div>
+        <div class="section-time">07:00 – 09:00</div>
+      </div>
+      <div id="tasks-morning"></div>
+    </div>
+
+    <!-- DAY -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon day">☀️</div>
+        <div class="section-title">Päivä — Tehojakso</div>
+        <div class="section-time">09:00 – 14:00</div>
+      </div>
+      <div id="tasks-day"></div>
+    </div>
+
+    <!-- EVENING -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon evening">🍂</div>
+        <div class="section-title">Iltapäivä & Ilta — Ylläpito</div>
+        <div class="section-time">14:00 – 20:00</div>
+      </div>
+      <div id="tasks-evening"></div>
+    </div>
+
+    <!-- NIGHT -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon night">🌙</div>
+        <div class="section-title">Yö — Shutdown</div>
+        <div class="section-time">21:00 – 22:00</div>
+      </div>
+      <div id="tasks-night"></div>
+    </div>
+
+    <!-- Golden Rules -->
+    <div class="rules-card">
+      <h3>✦ Kultaiset säännöt</h3>
+      <div class="rule-item"><div class="rule-num">1</div><div>Tiskiallas on aina tyhjä, puhdas ja kuiva.</div></div>
+      <div class="rule-item"><div class="rule-num">2</div><div>Ei kuivuvia tiskejä tasoilla — kuivaa ja kaappiin heti.</div></div>
+      <div class="rule-item"><div class="rule-num">3</div><div>Jokainen tavara omalla paikallaan ennen nukkumaanmenoa.</div></div>
+    </div>
+
+  </div>
+
+  <!-- ─── MONTHLY VIEW ─── -->
+  <div class="view" id="view-monthly">
+    <div style="height:20px"></div>
+
+    <div class="monthly-progress-card">
+      <div class="monthly-stats">
+        <div class="stat-item">
+          <span class="stat-num" id="monthDoneCount">0</span>
+          <div class="stat-label">tehty</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" id="monthTotalCount">0</span>
+          <div class="stat-label">yhteensä</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" id="monthPct">0%</span>
+          <div class="stat-label">valmis</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="monthly-rooms"></div>
+
+    <button class="reset-month-btn" onclick="resetMonth()">↺ Nollaa suursiivous (uusi kuukausi)</button>
+    <div style="height:24px"></div>
+  </div>
+
+</div>
+
+<script>
+// ─── DATA ─────────────────────────────────────────────────────────────────
+
+const DAILY_TASKS = {
+  morning: [
+    { id: 'm1', time: '07:00', title: 'Sängyn petaus' },
+    { id: 'm2', time: '07:00', title: 'Pyykki 1 käyntiin' },
+    { id: 'm3', time: '07:30', title: 'Aamupala' },
+    { id: 'm4', time: '07:30', title: 'Tiskaus heti aamupalan jälkeen' },
+    { id: 'm5', time: '07:30', title: 'Tasojen pyyhintä' },
+    { id: 'm6', time: '08:00', title: 'Eteisen nollaus — kengät ja takit paikoilleen' },
+    { id: 'm7', time: '08:30', title: 'Pyykki 1 viikkaus' },
+  ],
+  day: [
+    { id: 'd1', time: '09:00', title: 'Kodin yleisraivaus — visuaalinen nollaus' },
+    { id: 'd2', time: '09:00', title: 'Kaikki irtotavara pois näkyvistä' },
+    { id: 'd3', time: '10:30', title: 'Huolellinen imurointi — koko asunto' },
+    { id: 'd4', time: '11:00', title: 'Pyykki 2 käyntiin' },
+    { id: 'd5', time: '11:30', title: 'Lattioiden pesu — nihkeä moppaus koko kotiin' },
+    { id: 'd6', time: '12:30', title: 'Kylpyhuoneen ja altaiden pyyhintä' },
+    { id: 'd7', time: '13:30', title: 'Pyykki 2 viikkaus' },
+  ],
+  evening: [
+    { id: 'e1', time: '16:00', title: 'Välipala + välitön tiskaus' },
+    { id: 'e2', time: '17:30', title: 'Päivällinen' },
+    { id: 'e3', time: '17:30', title: 'Tiskaus heti — ei astioita altaaseen' },
+    { id: 'e4', time: '17:30', title: 'Keittiön tasojen ja altaan pesu ja kuivaus' },
+    { id: 'e5', time: '19:30', title: 'Leluhälytys — tavarat omiin laatikoihin, lattiat tyhjiksi' },
+  ],
+  night: [
+    { id: 'n1', time: '21:00', title: 'Viimeinen kierros — tasojen loppukiillotus' },
+    { id: 'n2', time: '21:00', title: 'Roskien vienti' },
+    { id: 'n3', time: '22:00', title: 'Pyykki 3 (yökone) käyntiin' },
+  ],
+};
+
+const MONTHLY_ROOMS = [
+  {
+    id: 'kitchen',
+    name: 'Keittiö',
+    icon: '🍳',
+    tasks: [
+      'Kahvikaappi (kuiva-ainekaappi 1)',
+      'Maustekaappi',
+      'Kuivauskaappi',
+      'Kuiva-ainekaappi 2',
+      'Kierrätyskaappi — ylähylly',
+      'Tiskipöytä + kaakelit',
+      'Tiskiallas',
+      'Ikkuna',
+      'Kierrätyskaappi 2 — alakaappi',
+      'Pyyhevetolaatikot',
+      'Roskiskaappi',
+      'Kierrätyskaappi 3 — avohylly',
+      'Lääkekaappi',
+      'Pullokaappi',
+      'Työkaluvetolaatikko',
+      'Patalappu-vetolaatikko',
+      'Vaatteet-vetolaatikko',
+      'Jääkaappi (sisältä)',
+      'Jääkaapin yläpuolella oleva kaappi',
+      'Patteri',
+      'Ruokapöytä',
+      'Tuolit',
+      'Lattia',
+      'Lamppu',
+      'Katto',
+    ]
+  },
+  {
+    id: 'bathroom',
+    name: 'Kylpyhuone',
+    icon: '🚿',
+    tasks: [
+      'Peilikaappi / peili',
+      'Lavuaari ja hana',
+      'WC-pöntto (sisä ja ulko)',
+      'Suihku / suihkuseinä',
+      'Lattia',
+      'Seinät ja kaakelit',
+      'Kaappi / hylly',
+      'Pyyhkeet — pyykinpesu',
+      'Patteri',
+      'Ikkuna',
+    ]
+  },
+  {
+    id: 'living',
+    name: 'Olohuone',
+    icon: '🛋️',
+    tasks: [
+      'Sohva (tyynyt + alta)',
+      'Sohvapöytä',
+      'TV ja elektroniikka (pölynpyyhintä)',
+      'Hyllyt ja tasot',
+      'Ikkunalaudat',
+      'Ikkunat',
+      'Verhot / kaihtimet',
+      'Lattia (nurkat ja alta)',
+      'Lamppu',
+      'Katto',
+      'Patteri',
+    ]
+  },
+  {
+    id: 'bedrooms',
+    name: 'Makuuhuoneet',
+    icon: '🛏️',
+    tasks: [
+      'Vuodevaatteet — pyykinpesu',
+      'Patja (tuuletusm ja pyöritys)',
+      'Kaapit (sisältä)',
+      'Tasot ja yöpöydät',
+      'Lattia (nurkat ja alta)',
+      'Ikkuna',
+      'Patteri',
+      'Lamppu',
+    ]
+  },
+  {
+    id: 'hallway',
+    name: 'Eteinen',
+    icon: '🚪',
+    tasks: [
+      'Kenkäkaappi / kengät järjestykseen',
+      'Takkitanko ja naulakko',
+      'Peilit',
+      'Lattia',
+      'Ovi ja karmi',
+    ]
+  },
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────
+
+function getTodayKey() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem('linnunpesa') || '{}'); } catch { return {}; }
+}
+function saveState(s) {
+  localStorage.setItem('linnunpesa', JSON.stringify(s));
+}
+
+let state = loadState();
+
+// ─── DATE BADGE ───────────────────────────────────────────────────────────
+
+const DAYS = ['sunnuntai','maanantai','tiistai','keskiviikko','torstai','perjantai','lauantai'];
+const MONTHS = ['tammikuuta','helmikuuta','maaliskuuta','huhtikuuta','toukokuuta','kesäkuuta','heinäkuuta','elokuuta','syyskuuta','lokakuuta','marraskuuta','joulukuuta'];
+const now = new Date();
+document.getElementById('dateBadge').textContent =
+  `${DAYS[now.getDay()]} ${now.getDate()}. ${MONTHS[now.getMonth()]}`;
+
+// ─── DAILY RENDER ─────────────────────────────────────────────────────────
+
+function isDailyDone(id) {
+  const today = getTodayKey();
+  return (state.daily?.[today] || []).includes(id);
+}
+
+function toggleDaily(id) {
+  const today = getTodayKey();
+  if (!state.daily) state.daily = {};
+  if (!state.daily[today]) state.daily[today] = [];
+  const idx = state.daily[today].indexOf(id);
+  if (idx === -1) state.daily[today].push(id);
+  else state.daily[today].splice(idx, 1);
+  saveState(state);
+  renderDaily();
+}
+
+function resetDay() {
+  const today = getTodayKey();
+  if (!state.daily) state.daily = {};
+  state.daily[today] = [];
+  saveState(state);
+  renderDaily();
+}
+
+function renderTaskList(containerId, tasks) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = tasks.map(t => {
+    const done = isDailyDone(t.id);
+    return `
+      <div class="task-card ${done ? 'done' : ''}" onclick="toggleDailyAnim('${t.id}', this)">
+        <div class="checkbox">
+          <div class="checkbox-check">✓</div>
+        </div>
+        <div class="task-body">
+          <span class="task-time">${t.time}</span>
+          <div class="task-title">${t.title}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleDailyAnim(id, el) {
+  el.classList.add('popped');
+  el.addEventListener('animationend', () => el.classList.remove('popped'), { once: true });
+  toggleDaily(id);
+}
+
+function renderDaily() {
+  renderTaskList('tasks-morning', DAILY_TASKS.morning);
+  renderTaskList('tasks-day', DAILY_TASKS.day);
+  renderTaskList('tasks-evening', DAILY_TASKS.evening);
+  renderTaskList('tasks-night', DAILY_TASKS.night);
+
+  // Progress
+  const today = getTodayKey();
+  const done = (state.daily?.[today] || []).length;
+  const allTasks = [...DAILY_TASKS.morning, ...DAILY_TASKS.day, ...DAILY_TASKS.evening, ...DAILY_TASKS.night];
+  const total = allTasks.length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const circ = 2 * Math.PI * 28;
+  document.getElementById('progressCircle').style.strokeDashoffset = circ - (circ * pct / 100);
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressSub').textContent = `${done} / ${total} tehtävää tehty`;
+
+  const msgs = ['Päivä alkaa ✦', 'Hyvä alku! 🌿', 'Puolivälissä 💪', 'Melkein valmis ✨', 'Täydellinen päivä! 🎉'];
+  const idx = pct === 0 ? 0 : pct < 30 ? 1 : pct < 60 ? 2 : pct < 100 ? 3 : 4;
+  document.getElementById('progressMsg').textContent = msgs[idx];
+}
+
+// ─── MONTHLY RENDER ───────────────────────────────────────────────────────
+
+function getMonthKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+function isMonthlyDone(roomId, taskIdx) {
+  const month = getMonthKey();
+  return (state.monthly?.[month]?.[roomId] || []).includes(taskIdx);
+}
+
+function toggleMonthly(roomId, taskIdx) {
+  const month = getMonthKey();
+  if (!state.monthly) state.monthly = {};
+  if (!state.monthly[month]) state.monthly[month] = {};
+  if (!state.monthly[month][roomId]) state.monthly[month][roomId] = [];
+  const arr = state.monthly[month][roomId];
+  const idx = arr.indexOf(taskIdx);
+  if (idx === -1) arr.push(taskIdx);
+  else arr.splice(idx, 1);
+  saveState(state);
+  renderMonthly();
+}
+
+function resetMonth() {
+  if (!confirm('Nollataan suursiivous? Kaikki kuukauden merkinnät poistetaan.')) return;
+  const month = getMonthKey();
+  if (!state.monthly) state.monthly = {};
+  state.monthly[month] = {};
+  saveState(state);
+  renderMonthly();
+}
+
+function renderMonthly() {
+  const container = document.getElementById('monthly-rooms');
+  const month = getMonthKey();
+  let totalDone = 0, totalAll = 0;
+
+  container.innerHTML = MONTHLY_ROOMS.map(room => {
+    const doneList = state.monthly?.[month]?.[room.id] || [];
+    const roomDone = doneList.length;
+    const roomTotal = room.tasks.length;
+    totalDone += roomDone;
+    totalAll += roomTotal;
+
+    const taskHtml = room.tasks.map((task, i) => {
+      const done = doneList.includes(i);
+      return `
+        <div class="monthly-task ${done ? 'done' : ''}" onclick="toggleMonthlyAnim('${room.id}', ${i}, this)">
+          <div class="checkbox">
+            <div class="checkbox-check">✓</div>
+          </div>
+          <div class="monthly-task-name">${task}</div>
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div class="monthly-section">
+        <div class="monthly-section-header">
+          <span class="room-icon">${room.icon}</span>
+          <div class="monthly-section-title">${room.name}</div>
+          <div class="room-progress-text">${roomDone}/${roomTotal}</div>
+        </div>
+        ${taskHtml}
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('monthDoneCount').textContent = totalDone;
+  document.getElementById('monthTotalCount').textContent = totalAll;
+  document.getElementById('monthPct').textContent =
+    totalAll > 0 ? Math.round((totalDone / totalAll) * 100) + '%' : '0%';
+}
+
+function toggleMonthlyAnim(roomId, taskIdx, el) {
+  el.classList.add('popped');
+  el.addEventListener('animationend', () => el.classList.remove('popped'), { once: true });
+  toggleMonthly(roomId, taskIdx);
+}
+
+// ─── TABS ─────────────────────────────────────────────────────────────────
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', ['daily','monthly'][i] === tab);
+  });
+  document.getElementById('view-daily').classList.toggle('active', tab === 'daily');
+  document.getElementById('view-monthly').classList.toggle('active', tab === 'monthly');
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────
+
+renderDaily();
+renderMonthly();
+</script>
+</body>
+</html>
