@@ -562,6 +562,15 @@ function saveMonthlyRooms(rooms) { state.customMonthly = rooms; saveState(state)
   }
 });
 if (!state.customMonthly) state.customMonthly = JSON.parse(JSON.stringify(BASE_MONTHLY));
+
+// ── MIGRAATIOT — lisää puuttuvat uudet tehtävät tallennettuun dataan ──
+(function migrate() {
+  const night = state.customTasks && state.customTasks.night;
+  if (night && !night.find(function(t){ return t.id === 'n4'; })) {
+    night.push({ id: 'n4', time: '21:20', title: 'Vie roskat' });
+  }
+})();
+
 saveState(state);
 
 // ── DATE ───────────────────────────────────────────────────────────────────
