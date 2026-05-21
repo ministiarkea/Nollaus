@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Nollaus" />
+  <meta name="theme-color" content="#8aab8e" />
+  <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Nollaus%20%E2%80%94%20Siivousrutiinit%22%2C%22short_name%22%3A%22Nollaus%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23faf7f2%22%2C%22theme_color%22%3A%22%238aab8e%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2Cdata%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%238aab8e'/%3E%3Ctext x='90' y='125' font-size='90' text-anchor='middle'%3E🧹%3C/text%3E%3C/svg%3E" />
   <title>Nollaus — Siivousrutiinit</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
@@ -108,6 +115,12 @@
     .task-card:hover .task-actions { opacity: 1; }
     .task-del-btn { background: none; border: none; cursor: pointer; color: var(--mid-grey); font-size: 0.78rem; padding: 3px 5px; border-radius: 4px; transition: all 0.15s; line-height: 1; }
     .task-del-btn:hover { background: #fee; color: #c44; }
+    /* Rupeama divider */
+    .task-card.rupeama { background: var(--charcoal); box-shadow: none; border: none; cursor: default; padding: 8px 14px; margin-top: 10px; }
+    .task-card.rupeama .task-title { color: var(--sage-light); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; }
+    .task-card.rupeama:hover { border-color: transparent; }
+    .task-card.rupeama .task-check-area { cursor: default; pointer-events: none; }
+    .task-card.rupeama .checkbox { display: none; }
 
     /* ── ADD TASK ROW ── */
     .add-task-row { display: flex; gap: 6px; margin-top: 5px; margin-bottom: 2px; }
@@ -262,7 +275,7 @@
       <div class="section-header">
         <div class="section-icon morning">🌅</div>
         <div class="section-title">Aamu — Startti</div>
-        <div class="section-time">07:00 – 09:00</div>
+        <div class="section-time">07:00 – 08:50</div>
       </div>
       <div id="tasks-morning"></div>
       <div class="add-task-row">
@@ -276,7 +289,7 @@
       <div class="section-header">
         <div class="section-icon day">☀️</div>
         <div class="section-title">Päivä — Tehojakso</div>
-        <div class="section-time">09:00 – 14:00</div>
+        <div class="section-time">09:00 – 13:40</div>
       </div>
       <div id="tasks-day"></div>
       <div class="add-task-row">
@@ -365,30 +378,42 @@
 
 const BASE_DAILY = {
   morning: [
-    { id: 'm1', time: '07:00', title: 'Pura sänky & sijaa vuode' },
-    { id: 'm2', time: '07:20', title: 'Tiskaa tai laita astiat koneeseen' },
-    { id: 'm3', time: '07:30', title: 'Siisti keittiö — tasot ja allas' },
-    { id: 'm4', time: '07:35', title: 'Lajittele jätteet (esim. litistä maitopurkit)' },
-    { id: 'm5', time: '07:40', title: 'Pyykki 1 käyntiin' },
-    { id: 'm7', time: '09:00', title: 'Eteisen nollaus — kengät ja takit paikoilleen' },
+    // ── Rupeama 1 · ~25 min · 07:00–07:25 ──
+    { id: 'm_r1', time: '07:00', title: '🟢 Rupeama 1 · 25 min' },
+    { id: 'm1',   time: '07:00', title: 'Tuuleta vuode (2 min) — jätä auki' },
+    { id: 'm2',   time: '07:02', title: 'Pyykki 1 käyntiin (2 min)' },
+    { id: 'm3',   time: '07:04', title: 'Tiskaa tai laita astiat koneeseen (5 min)' },
+    { id: 'm4',   time: '07:09', title: 'Tasot, liesi ja allas — pyyhintä (5 min)' },
+    { id: 'm5',   time: '07:14', title: 'Lajittele jätteet (2 min)' },
+    { id: 'm6',   time: '07:16', title: 'Sijaa vuode (3 min)' },
+    { id: 'm7',   time: '07:19', title: 'Eteinen — kengät ja takit paikoilleen (3 min)' },
+    // ── Rupeama 2 · ~20 min · 08:30–08:50 ──
+    { id: 'm_r2', time: '08:30', title: '🟡 Rupeama 2 · 20 min' },
+    { id: 'm8',   time: '08:30', title: 'Pyykki 1 pois koneesta ja viikkaus (10 min)' },
+    { id: 'm9',   time: '08:40', title: 'Yleisraivaus — tavarat pois lattioilta (5 min)' },
+    { id: 'm10',  time: '08:45', title: 'Roskat ulos tarvittaessa (3 min)' },
   ],
   day: [
-    { id: 'd1', time: '09:05', title: 'Häiritsevät roskat ja tahrat pois' },
-    { id: 'd2', time: '09:10', title: 'Imuroi koko asunto' },
-    { id: 'd3', time: '09:20', title: 'Pyyhi pöydät + sormenjäljet pinnoilta' },
-    { id: 'd4', time: '11:00', title: 'Pyykki 2 käyntiin' },
-    { id: 'd5', time: '11:04', title: 'Lattioiden pesu' },
-    { id: 'd6', time: '11:10', title: 'Pyyhi vessa' },
-    { id: 'd7', time: '13:30', title: 'Pyykin viikkaus' },
+    // ── Rupeama 3 · ~25 min · 09:00–09:25 ──
+    { id: 'd_r1', time: '09:00', title: '🟢 Rupeama 3 · 25 min' },
+    { id: 'd1',   time: '09:00', title: 'Imuroi koko asunto (10 min)' },
+    { id: 'd2',   time: '09:10', title: 'Pyyhi pöydät ja pinnat, poista sormenjäljet (5 min)' },
+    { id: 'd3',   time: '09:15', title: 'Pese lattiat — nihkeä moppaus (10 min)' },
+    // ── Rupeama 4 · ~20 min · 11:00–11:20 ──
+    { id: 'd_r2', time: '11:00', title: '🟡 Rupeama 4 · 20 min' },
+    { id: 'd4',   time: '11:00', title: 'Pyykki 2 käyntiin (2 min)' },
+    { id: 'd5',   time: '11:02', title: 'Pyyhi vessan lavuaari, peili ja pönttö (10 min)' },
+    { id: 'd6',   time: '11:12', title: 'Tyhjennä kierrätysastiat (3 min)' },
+    { id: 'd7',   time: '13:30', title: 'Pyykki 2 pois ja viikkaus (10 min)' },
   ],
   evening: [
     { id: 'e1', time: '17:00', title: 'Päivällinen + tiskaus heti' },
     { id: 'e2', time: '19:30', title: 'Leluhälytys — tavarat omiin laatikoihin, lattiat tyhjiksi' },
   ],
   night: [
-    { id: 'n1', time: '21:00', title: 'Imuroi' },
-    { id: 'n2', time: '21:30', title: 'Kierrä ja laita tavarat paikalleen, pyyhi pöydät' },
-    { id: 'n3', time: '22:00', title: 'Pyykki 3 (yökone) käyntiin' },
+    { id: 'n1', time: '21:00', title: 'Viimeinen kierros — pöydät, pinnat, keittiö (5 min)' },
+    { id: 'n2', time: '21:05', title: 'Tavarat paikoilleen (5 min)' },
+    { id: 'n3', time: '22:00', title: 'Pyykki 3 (yökone) käyntiin (2 min)' },
   ],
 };
 
@@ -603,8 +628,19 @@ function deleteTask(section, id) {
 }
 
 function renderTaskList(containerId, section) {
-  const tasks = getDailyTasks(section); // sorted
+  const tasks = getDailyTasks(section);
   document.getElementById(containerId).innerHTML = tasks.map(t => {
+    const isRupeama = t.id.endsWith('_r1') || t.id.endsWith('_r2');
+    if (isRupeama) {
+      return `<div class="task-card rupeama">
+        <div class="task-check-area">
+          <div class="task-body"><div class="task-title">${t.title}</div></div>
+        </div>
+        <div class="task-actions">
+          <button class="task-del-btn" onclick="deleteTask('${section}','${t.id}')">✕</button>
+        </div>
+      </div>`;
+    }
     const done = isDailyDone(t.id);
     return `<div class="task-card ${done?'done':''}" id="tc-${t.id}">
       <div class="task-check-area" onclick="animToggleDaily('${t.id}','tc-${t.id}')">
@@ -813,6 +849,25 @@ function updateTimerDisplay() {
   el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   el.className = 'timer-display' + (timerRunning ? ' running' : '');
 }
+function playTimerEndSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const beeps = [0, 0.35, 0.7];
+    beeps.forEach(delay => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, ctx.currentTime + delay);
+      osc.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + delay + 0.25);
+      gain.gain.setValueAtTime(0.6, ctx.currentTime + delay);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.3);
+      osc.start(ctx.currentTime + delay);
+      osc.stop(ctx.currentTime + delay + 0.32);
+    });
+  } catch(e) { /* Selaimen äänirajoitus — ei tehdä mitään */ }
+}
 function toggleTimer() {
   if (timerRunning) {
     clearInterval(timerInterval); timerRunning = false;
@@ -827,6 +882,7 @@ function toggleTimer() {
       if (timerSeconds <= 0) {
         clearInterval(timerInterval); timerRunning = false;
         document.getElementById('timerStartBtn').textContent = '▶ Käynnistä';
+        playTimerEndSound();
         const origTitle = document.title;
         let flashes = 0;
         titleFlashInterval = setInterval(() => {
