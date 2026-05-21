@@ -48,7 +48,7 @@
     /* ── CONTAINER ── */
     .container { max-width: 680px; margin: 0 auto; padding: 20px 24px 0; }
 
-    /* ── TIMER BAR (shared, hidden by default) ── */
+    /* ── TIMER BAR ── */
     .timer-bar { background: var(--warm-white); border-radius: var(--radius); padding: 12px 18px; margin-bottom: 18px; box-shadow: var(--shadow); display: none; align-items: center; gap: 10px; flex-wrap: wrap; }
     .timer-bar.visible { display: flex; }
     .timer-display { font-family: 'Fraunces', serif; font-size: 1.75rem; font-weight: 300; color: var(--charcoal); letter-spacing: -0.02em; line-height: 1; min-width: 66px; transition: color 0.3s; flex-shrink: 0; }
@@ -155,7 +155,7 @@
     .reset-month-btn { display: block; width: 100%; background: none; border: 1.5px dashed var(--light-grey); border-radius: var(--radius-sm); padding: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; color: var(--mid-grey); cursor: pointer; transition: all 0.2s; margin-top: 6px; }
     .reset-month-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
 
-    /* ── NOTES — CARD STYLE ── */
+    /* ── NOTES ── */
     .notes-add-row { display: flex; gap: 8px; margin-bottom: 16px; }
     .notes-add-input { flex: 1; background: var(--warm-white); border: 1.5px dashed var(--light-grey); border-radius: var(--radius-sm); padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.84rem; color: var(--charcoal); outline: none; resize: none; min-height: 60px; transition: border-color 0.2s; line-height: 1.5; }
     .notes-add-input::placeholder { color: var(--light-grey); }
@@ -215,7 +215,6 @@
   <button class="tab-btn" onclick="switchTab('history')">Historia</button>
 </div>
 
-<!-- TIMER BAR — shared, outside views -->
 <div class="container" style="padding-top:0; padding-bottom:0;">
   <div style="height:14px"></div>
   <div class="timer-bar" id="timerBar">
@@ -290,12 +289,12 @@
     <div class="section">
       <div class="section-header">
         <div class="section-icon evening">🍂</div>
-        <div class="section-title">Iltapäivä & Ilta — Ylläpito</div>
-        <div class="section-time">14:00 – 20:00</div>
+        <div class="section-title">Ilta — Ylläpito</div>
+        <div class="section-time">17:00 – 20:00</div>
       </div>
       <div id="tasks-evening"></div>
       <div class="add-task-row">
-        <input class="add-task-time-input" type="text" placeholder="16:00" id="newtime-evening" maxlength="5"/>
+        <input class="add-task-time-input" type="text" placeholder="17:00" id="newtime-evening" maxlength="5"/>
         <input class="add-task-input" type="text" placeholder="Lisää tehtävä..." id="newtask-evening" onkeydown="if(event.key==='Enter') addTask('evening')"/>
         <button class="add-task-btn" onclick="addTask('evening')">+</button>
       </div>
@@ -318,8 +317,7 @@
     <div class="rules-card">
       <h3>✦ Kultaiset säännöt</h3>
       <div class="rule-item"><div class="rule-num">1</div><div>Tiskiallas on aina tyhjä, puhdas ja kuiva.</div></div>
-      <div class="rule-item"><div class="rule-num">2</div><div>Ei kuivuvia tiskejä tasoilla — kuivaa ja kaappiin heti.</div></div>
-      <div class="rule-item"><div class="rule-num">3</div><div>Jokainen tavara omalla paikallaan ennen nukkumaanmenoa.</div></div>
+      <div class="rule-item"><div class="rule-num">2</div><div>Jokainen tavara omalla paikallaan ennen nukkumaanmenoa.</div></div>
     </div>
   </div>
 
@@ -367,35 +365,29 @@
 
 const BASE_DAILY = {
   morning: [
-    { id: 'm0', time: '07:00', title: 'Tuuleta vuode — jätä auki aamutoimien ajaksi' },
-    { id: 'm1', time: '07:30', title: 'Sijaa vuode' },
-    { id: 'm2', time: '07:30', title: 'Pyykki 1 käyntiin' },
-    { id: 'm4', time: '07:45', title: 'Tiskaa tai laita astiat koneeseen' },
-    { id: 'm5', time: '07:45', title: 'Siisti keittiö — tasot ja allas' },
-    { id: 'm8', time: '08:00', title: 'Lajittele jätteet' },
-    { id: 'm6', time: '08:00', title: 'Eteisen nollaus — kengät ja takit paikoilleen' },
-    { id: 'm7', time: '08:30', title: 'Pyykki 1 viikkaus' },
+    { id: 'm1', time: '07:00', title: 'Pura sänky & sijaa vuode' },
+    { id: 'm2', time: '07:20', title: 'Tiskaa tai laita astiat koneeseen' },
+    { id: 'm3', time: '07:30', title: 'Siisti keittiö — tasot ja allas' },
+    { id: 'm4', time: '07:35', title: 'Lajittele jätteet (esim. litistä maitopurkit)' },
+    { id: 'm5', time: '07:40', title: 'Pyykki 1 käyntiin' },
+    { id: 'm7', time: '09:00', title: 'Eteisen nollaus — kengät ja takit paikoilleen' },
   ],
   day: [
-    { id: 'd1',  time: '09:00', title: 'Palauta tavarat paikoilleen — visuaalinen nollaus' },
-    { id: 'd2b', time: '09:30', title: 'Pikakierros — häiritsevät roskat ja tahrat pois' },
-    { id: 'd3',  time: '10:30', title: 'Imuroi lattiat ja matot — koko asunto' },
-    { id: 'd3b', time: '10:45', title: 'Pyyhi pölyt ja poista sormenjäljet pinnoilta' },
-    { id: 'd4',  time: '11:00', title: 'Pyykki 2 käyntiin' },
-    { id: 'd5',  time: '11:30', title: 'Lattioiden pesu — nihkeä moppaus koko kotiin' },
-    { id: 'd6',  time: '12:30', title: 'Pese WC ja kylpyhuone' },
-    { id: 'd6b', time: '12:45', title: 'Tyhjennä kierrätysastiat' },
-    { id: 'd7',  time: '13:30', title: 'Pyykki 2 viikkaus' },
+    { id: 'd1', time: '09:05', title: 'Häiritsevät roskat ja tahrat pois' },
+    { id: 'd2', time: '09:10', title: 'Imuroi koko asunto' },
+    { id: 'd3', time: '09:20', title: 'Pyyhi pöydät + sormenjäljet pinnoilta' },
+    { id: 'd4', time: '11:00', title: 'Pyykki 2 käyntiin' },
+    { id: 'd5', time: '11:04', title: 'Lattioiden pesu' },
+    { id: 'd6', time: '11:10', title: 'Pyyhi vessa' },
+    { id: 'd7', time: '13:30', title: 'Pyykin viikkaus' },
   ],
   evening: [
-    { id: 'e1', time: '16:00', title: 'Välipala + välitön tiskaus' },
-    { id: 'e3', time: '17:30', title: 'Tiskaa tai laita astiat koneeseen — ei astioita altaaseen' },
-    { id: 'e4', time: '17:30', title: 'Keittiön tasojen ja altaan pesu ja kuivaus' },
-    { id: 'e5', time: '19:30', title: 'Leluhälytys — tavarat omiin laatikoihin, lattiat tyhjiksi' },
+    { id: 'e1', time: '17:00', title: 'Päivällinen + tiskaus heti' },
+    { id: 'e2', time: '19:30', title: 'Leluhälytys — tavarat omiin laatikoihin, lattiat tyhjiksi' },
   ],
   night: [
-    { id: 'n1', time: '21:00', title: 'Viimeinen kierros — tasojen loppukiillotus' },
-    { id: 'n2', time: '21:00', title: 'Roskien vienti' },
+    { id: 'n1', time: '21:00', title: 'Imuroi' },
+    { id: 'n2', time: '21:30', title: 'Kierrä ja laita tavarat paikalleen, pyyhi pöydät' },
     { id: 'n3', time: '22:00', title: 'Pyykki 3 (yökone) käyntiin' },
   ],
 };
@@ -404,72 +396,100 @@ const BASE_MONTHLY = [
   {
     id: 'kitchen', name: 'Keittiö', icon: '🍳',
     tasks: [
-      'Yläkaapit (sisältä)',
-      'Alakaapit (sisältä)',
+      'Katto ja valaisimet',
+      'Yläkaapit ulkoa (ovet ja päälliset)',
+      'Yläkaapit sisältä — tyhjennä, pyyhi, järjestä',
+      'Liesituuletin — suodatin ja pinnat',
+      'Kaakelit ja seinäpinnat',
+      'Ikkuna ja ikkunalauta',
+      'Liesi / keramiikka / induktio — pinnat ja levyt',
+      'Uuni sisältä ja ulkoa',
+      'Mikroaaltouuni sisältä ja ulkoa',
+      'Jääkaappi — tyhjennä, pyyhi hyllyt, kuivaa',
+      'Pakastin — sulata tarvittaessa, pyyhi',
       'Tiskiallas ja hana',
-      'Tiskipöytä ja kaakelit',
-      'Jääkaappi (sisältä)',
-      'Uuni ja liesi (sisä ja ulko)',
-      'Liesituuletin',
-      'Tasot ja pinnat',
-      'Ruokapöytä ja tuolit',
-      'Ikkuna',
-      'Lattia',
-      'Katto ja lamppu',
-      'Ovi',
+      'Tiskipöytä + kaakelit',
+      'Tasot — kaikki pinnat ja takaseinä',
+      'Alakaapit ulkoa (ovet)',
+      'Alakaapit sisältä — tyhjennä, pyyhi, järjestä',
+      'Vetolaatikot — tyhjennä, pyyhi, järjestä',
+      'Roskis ja roskiskaappi',
+      'Kierrätysastiat',
+      'Ruokapöytä',
+      'Tuolit',
       'Patteri',
+      'Lattia — nurkat ja alta',
     ]
   },
   {
-    id: 'bathroom', name: 'Kylpyhuone', icon: '🚿',
+    id: 'bathroom', name: 'Kylpyhuone & WC', icon: '🚿',
     tasks: [
-      'Peilikaappi / peili',
-      'Lavuaari ja hana',
-      'WC-pöntto (sisä ja ulko)',
-      'Suihku / suihkuseinä',
-      'Lattia',
-      'Seinät ja kaakelit',
-      'Kaappi / hylly',
-      'Pyyhkeet — pyykinpesu',
+      'Katto ja valaisin',
+      'Tuuletusventtiili — pölynpyyhintä',
+      'Peili ja peilikaappi sisältä',
+      'Suihkuseinä / suihkuverho',
+      'Suihku ja hana — kalkinpoisto',
+      'Lavuaari ja hana — kalkinpoisto',
+      'WC-pönttö sisältä ja ulkoa',
+      'WC-kansi ja saranat',
+      'Seinät ja kaakelit — saumat',
+      'Kaapit ja hyllyt sisältä',
+      'Lattiakaivo — puhdista',
+      'Lattia — nurkat ja lista',
       'Patteri',
-      'Ikkuna',
+      'Ikkuna ja ikkunalauta',
+      'Pyyhkeet — pyykinpesu',
     ]
   },
   {
     id: 'living', name: 'Olohuone', icon: '🛋️',
     tasks: [
-      'Sohva (tyynyt + alta)',
-      'Sohvapöytä',
-      'TV ja elektroniikka (pölynpyyhintä)',
-      'Hyllyt ja tasot',
-      'Ikkunalaudat ja ikkunat',
-      'Verhot / kaihtimet',
-      'Lattia (nurkat ja alta)',
-      'Lamppu ja katto',
+      'Katto, valaisimet ja kattolistat',
+      'Ikkunat ja ikkunalaudat',
+      'Verhot / kaihtimet — pese tai imuroi',
+      'Seinät — tahrat ja sormenjäljet',
+      'Hyllyt sisältä — tyhjennä, pyyhi, järjestä',
+      'Kirjahylly — kirjat pois, pyyhi',
+      'TV ja elektroniikka — pöly ja johdot',
+      'Sohva — tyynyt, alta ja takaa',
+      'Nojatuolit ja muut istuimet',
+      'Sohvapöytä ja sivupöydät',
+      'Kasvit ja kukkaruukut',
       'Patteri',
+      'Lattia — nurkat, alta ja listat',
     ]
   },
   {
     id: 'bedrooms', name: 'Makuuhuoneet', icon: '🛏️',
     tasks: [
+      'Katto, valaisimet ja kattolistat',
+      'Ikkunat ja ikkunalaudat',
+      'Verhot / kaihtimet — pese tai imuroi',
       'Vuodevaatteet — pyykinpesu',
-      'Patja (tuuletus ja pyöritys)',
-      'Kaapit (sisältä)',
-      'Tasot ja yöpöydät',
-      'Lattia (nurkat ja alta)',
-      'Ikkuna',
+      'Patja — tuuleta ja pyöritä',
+      'Sängynrunko ja pääty — pyyhi',
+      'Vaatekaappi ulkoa (ovet ja päälliset)',
+      'Vaatekaappi sisältä — tyhjennä, järjestä',
+      'Yöpöydät — tyhjennä ja pyyhi',
+      'Muut tasot ja hyllyt',
       'Patteri',
-      'Lamppu',
+      'Lattia — nurkat, alta ja listat',
     ]
   },
   {
-    id: 'hallway', name: 'Eteinen', icon: '🚪',
+    id: 'hallway', name: 'Eteinen & käytävä', icon: '🚪',
     tasks: [
-      'Kenkäkaappi — kengät järjestykseen',
-      'Takkitanko ja naulakko',
-      'Peilit',
-      'Lattia',
-      'Ovi ja karmi',
+      'Katto ja valaisin',
+      'Peili — pyyhi ja kiillota',
+      'Naulakko ja takkitanko — pyyhi',
+      'Takit ja laukut — järjestä',
+      'Kenkäkaappi ulkoa',
+      'Kenkäkaappi sisältä — tyhjennä, järjestä',
+      'Kengät — pese tai harja',
+      'Ulko-ovi ja karmi — sisäpuoli',
+      'Ovenkahvat ja valokatkaisijat',
+      'Patteri',
+      'Lattia — nurkat ja listat',
     ]
   },
 ];
@@ -478,12 +498,12 @@ const BASE_MONTHLY = [
 
 function getTodayKey() { return new Date().toISOString().slice(0, 10); }
 function getMonthKey() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; }
-function loadState() { try { return JSON.parse(localStorage.getItem('nollaus') || '{}'); } catch { return {}; } }
-function saveState(s) { localStorage.setItem('nollaus', JSON.stringify(s)); }
+function loadState() { try { return JSON.parse(localStorage.getItem('linnunpesa') || '{}'); } catch { return {}; } }
+function saveState(s) { localStorage.setItem('linnunpesa', JSON.stringify(s)); }
 
 let state = loadState();
 
-const DATA_VERSION = 5;
+const DATA_VERSION = 1;
 if (state.dataVersion !== DATA_VERSION) {
   state.customTasks = {};
   state.customMonthly = null;
@@ -492,7 +512,12 @@ if (state.dataVersion !== DATA_VERSION) {
 }
 
 function getDailyTasks(section) {
-  return state.customTasks?.[section] ?? JSON.parse(JSON.stringify(BASE_DAILY[section]));
+  const tasks = state.customTasks?.[section] ?? JSON.parse(JSON.stringify(BASE_DAILY[section]));
+  // Always sort by time
+  return tasks.slice().sort((a, b) => {
+    const toMin = t => { if (!t) return 9999; const [h,m] = t.split(':').map(Number); return h*60+m; };
+    return toMin(a.time) - toMin(b.time);
+  });
 }
 function getMonthlyRooms() {
   return state.customMonthly ?? JSON.parse(JSON.stringify(BASE_MONTHLY));
@@ -544,7 +569,6 @@ function resetDay() {
   const today = getTodayKey();
   const doneIds = state.daily?.[today] || [];
   if (doneIds.length === 0) return;
-  // Save to history before resetting
   const allTasks = ['morning','day','evening','night'].flatMap(s => getDailyTasks(s));
   const doneTasks = allTasks.filter(t => doneIds.includes(t.id)).map(t => t.title);
   if (doneTasks.length > 0) {
@@ -564,20 +588,22 @@ function addTask(section) {
   const timeEl = document.getElementById('newtime-' + section);
   const name = nameEl.value.trim();
   if (!name) return;
-  const tasks = getDailyTasks(section);
-  tasks.push({ id: section[0] + '_' + Date.now(), time: timeEl.value.trim() || '', title: name });
-  saveDailyTasks(section, tasks);
+  // Load raw (unsorted) tasks to push into
+  const raw = state.customTasks?.[section] ?? JSON.parse(JSON.stringify(BASE_DAILY[section]));
+  raw.push({ id: section[0] + '_' + Date.now(), time: timeEl.value.trim() || '', title: name });
+  saveDailyTasks(section, raw);
   nameEl.value = ''; timeEl.value = '';
   renderDaily();
 }
 
 function deleteTask(section, id) {
-  saveDailyTasks(section, getDailyTasks(section).filter(t => t.id !== id));
+  const raw = state.customTasks?.[section] ?? JSON.parse(JSON.stringify(BASE_DAILY[section]));
+  saveDailyTasks(section, raw.filter(t => t.id !== id));
   renderDaily();
 }
 
 function renderTaskList(containerId, section) {
-  const tasks = getDailyTasks(section);
+  const tasks = getDailyTasks(section); // sorted
   document.getElementById(containerId).innerHTML = tasks.map(t => {
     const done = isDailyDone(t.id);
     return `<div class="task-card ${done?'done':''}" id="tc-${t.id}">
@@ -704,16 +730,12 @@ function addNote() {
   if (!text) return;
   if (!state.notes) state.notes = [];
   state.notes.unshift({ id: Date.now(), date: getTodayKey(), text });
-  saveState(state);
-  inp.value = '';
-  renderNotes();
+  saveState(state); inp.value = ''; renderNotes();
 }
-
 function deleteNote(id) {
   state.notes = (state.notes || []).filter(n => n.id !== id);
   saveState(state); renderNotes();
 }
-
 function downloadNotes() {
   const notes = state.notes || [];
   if (!notes.length) return;
@@ -721,10 +743,9 @@ function downloadNotes() {
   const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `nollaus-muistiinpanot-${getTodayKey()}.txt`; a.click();
+  a.href = url; a.download = `linnunpesa-muistiinpanot-${getTodayKey()}.txt`; a.click();
   URL.revokeObjectURL(url);
 }
-
 function renderNotes() {
   const notes = state.notes || [];
   const el = document.getElementById('notesList');
@@ -741,10 +762,8 @@ function renderNotes() {
 
 function clearHistory() {
   if (!confirm('Tyhjennetään koko historia?')) return;
-  state.history = [];
-  saveState(state); renderHistory();
+  state.history = []; saveState(state); renderHistory();
 }
-
 function renderHistory() {
   const history = state.history || [];
   const el = document.getElementById('historyList');
@@ -773,7 +792,6 @@ function toggleTimerBar() {
   const btn = document.getElementById('clockToggle');
   btn.classList.toggle('active', bar.classList.toggle('visible'));
 }
-
 function setTimerPreset(min, el) {
   if (timerRunning) return;
   activePreset = min; timerSeconds = min * 60;
@@ -782,7 +800,6 @@ function setTimerPreset(min, el) {
   document.getElementById('timerCustom').value = '';
   updateTimerDisplay();
 }
-
 function setTimerCustom() {
   const val = parseInt(document.getElementById('timerCustom').value);
   if (!val || val < 1 || val > 120 || timerRunning) return;
@@ -790,14 +807,12 @@ function setTimerCustom() {
   document.querySelectorAll('.timer-preset').forEach(b => b.classList.remove('active'));
   updateTimerDisplay();
 }
-
 function updateTimerDisplay() {
   const m = Math.floor(timerSeconds / 60), s = timerSeconds % 60;
   const el = document.getElementById('timerDisplay');
   el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   el.className = 'timer-display' + (timerRunning ? ' running' : '');
 }
-
 function toggleTimer() {
   if (timerRunning) {
     clearInterval(timerInterval); timerRunning = false;
@@ -812,14 +827,12 @@ function toggleTimer() {
       if (timerSeconds <= 0) {
         clearInterval(timerInterval); timerRunning = false;
         document.getElementById('timerStartBtn').textContent = '▶ Käynnistä';
-        // Title flash
         const origTitle = document.title;
         let flashes = 0;
         titleFlashInterval = setInterval(() => {
           document.title = flashes % 2 === 0 ? '🔔 Nollaus — Aika täynnä!' : 'Nollaus — Siivousrutiinit';
           if (++flashes >= 10) { clearInterval(titleFlashInterval); document.title = origTitle; }
         }, 500);
-        // Visual flash on display
         document.getElementById('timerDisplay').classList.add('done-anim');
         setTimeout(() => document.getElementById('timerDisplay').classList.remove('done-anim'), 3000);
       }
@@ -827,7 +840,6 @@ function toggleTimer() {
   }
   updateTimerDisplay();
 }
-
 function resetTimer() {
   clearInterval(timerInterval); clearInterval(titleFlashInterval);
   document.title = 'Nollaus — Siivousrutiinit';
