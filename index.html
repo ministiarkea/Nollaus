@@ -371,42 +371,34 @@
 
 const BASE_DAILY = {
   morning: [
-    // ── Rupeama 1 · ~25 min · 07:00–07:25 ──
-    { id: 'm_r1', time: '07:00', title: '🟢 Rupeama 1 · 25 min' },
-    { id: 'm1',   time: '07:00', title: 'Tuuleta vuode (2 min) — jätä auki' },
-    { id: 'm2',   time: '07:02', title: 'Pyykki 1 käyntiin (2 min)' },
-    { id: 'm3',   time: '07:04', title: 'Tiskaa tai laita astiat koneeseen (5 min)' },
-    { id: 'm4',   time: '07:09', title: 'Tasot, liesi ja allas — pyyhintä (5 min)' },
-    { id: 'm5',   time: '07:14', title: 'Lajittele jätteet (2 min)' },
-    { id: 'm6',   time: '07:16', title: 'Sijaa vuode (3 min)' },
-    { id: 'm7',   time: '07:19', title: 'Eteinen — kengät ja takit paikoilleen (3 min)' },
-    // ── Rupeama 2 · ~20 min · 08:30–08:50 ──
-    { id: 'm_r2', time: '08:30', title: '🟡 Rupeama 2 · 20 min' },
-    { id: 'm8',   time: '08:30', title: 'Pyykki 1 pois koneesta ja viikkaus (10 min)' },
-    { id: 'm9',   time: '08:40', title: 'Yleisraivaus — tavarat pois lattioilta (5 min)' },
-    { id: 'm10',  time: '08:45', title: 'Roskat ulos tarvittaessa (3 min)' },
+    { id: 'm1',  time: '07:00', title: 'Tuuleta vuode — jätä auki' },
+    { id: 'm2',  time: '07:02', title: 'Pyykki 1 käyntiin' },
+    { id: 'm3',  time: '07:04', title: 'Tiskaa tai laita astiat koneeseen' },
+    { id: 'm4',  time: '07:09', title: 'Tasot, liesi ja allas — pyyhintä' },
+    { id: 'm5',  time: '07:14', title: 'Lajittele jätteet' },
+    { id: 'm6',  time: '07:16', title: 'Sijaa vuode' },
+    { id: 'm7',  time: '07:19', title: 'Eteinen — kengät ja takit paikoilleen' },
+    { id: 'm8',  time: '08:30', title: 'Pyykki 1 pois koneesta ja viikkaus' },
+    { id: 'm9',  time: '08:40', title: 'Yleisraivaus — tavarat pois lattioilta' },
+    { id: 'm10', time: '08:45', title: 'Roskat ulos tarvittaessa' },
   ],
   day: [
-    // ── Rupeama 3 · ~25 min · 09:00–09:25 ──
-    { id: 'd_r1', time: '09:00', title: '🟢 Rupeama 3 · 25 min' },
-    { id: 'd1',   time: '09:00', title: 'Imuroi koko asunto (10 min)' },
-    { id: 'd2',   time: '09:10', title: 'Pyyhi pöydät ja pinnat, poista sormenjäljet (5 min)' },
-    { id: 'd3',   time: '09:15', title: 'Pese lattiat — nihkeä moppaus (10 min)' },
-    // ── Rupeama 4 · ~20 min · 11:00–11:20 ──
-    { id: 'd_r2', time: '11:00', title: '🟡 Rupeama 4 · 20 min' },
-    { id: 'd4',   time: '11:00', title: 'Pyykki 2 käyntiin (2 min)' },
-    { id: 'd5',   time: '11:02', title: 'Pyyhi vessa ja kylpyhuone (10 min)' },
-    { id: 'd6',   time: '11:12', title: 'Tyhjennä kierrätysastiat (3 min)' },
-    { id: 'd7',   time: '13:30', title: 'Pyykki 2 pois ja viikkaus (10 min)' },
+    { id: 'd1', time: '09:00', title: 'Imuroi koko asunto' },
+    { id: 'd2', time: '09:10', title: 'Pyyhi pöydät ja pinnat, poista sormenjäljet' },
+    { id: 'd3', time: '09:15', title: 'Pese lattiat — nihkeä moppaus' },
+    { id: 'd4', time: '11:00', title: 'Pyykki 2 käyntiin' },
+    { id: 'd5', time: '11:02', title: 'Pyyhi vessa ja kylpyhuone' },
+    { id: 'd6', time: '11:12', title: 'Tyhjennä kierrätysastiat' },
+    { id: 'd7', time: '13:30', title: 'Pyykki 2 pois ja viikkaus' },
   ],
   evening: [
     { id: 'e1', time: '17:00', title: 'Päivällinen + tiskaus heti' },
     { id: 'e2', time: '19:30', title: 'Leluhälytys — tavarat omiin laatikoihin, lattiat tyhjiksi' },
   ],
   night: [
-    { id: 'n1', time: '21:00', title: 'Viimeinen kierros — pöydät, pinnat, keittiö (5 min)' },
-    { id: 'n2', time: '21:05', title: 'Tavarat paikoilleen (5 min)' },
-    { id: 'n3', time: '22:00', title: 'Pyykki 3 (yökone) käyntiin (2 min)' },
+    { id: 'n1', time: '21:00', title: 'Viimeinen kierros — pöydät, pinnat, keittiö' },
+    { id: 'n2', time: '21:05', title: 'Tavarat paikoilleen' },
+    { id: 'n3', time: '22:00', title: 'Pyykki 3 (yökone) käyntiin' },
   ],
 };
 
@@ -521,7 +513,7 @@ function saveState(s) { localStorage.setItem('linnunpesa', JSON.stringify(s)); }
 
 let state = loadState();
 
-const DATA_VERSION = 1;
+const DATA_VERSION = 2;
 if (state.dataVersion !== DATA_VERSION) {
   state.customTasks = {};
   state.customMonthly = null;
@@ -623,17 +615,6 @@ function deleteTask(section, id) {
 function renderTaskList(containerId, section) {
   const tasks = getDailyTasks(section);
   document.getElementById(containerId).innerHTML = tasks.map(t => {
-    const isRupeama = t.id.endsWith('_r1') || t.id.endsWith('_r2');
-    if (isRupeama) {
-      return `<div class="task-card rupeama">
-        <div class="task-check-area">
-          <div class="task-body"><div class="task-title">${t.title}</div></div>
-        </div>
-        <div class="task-actions">
-          <button class="task-del-btn" onclick="deleteTask('${section}','${t.id}')">✕</button>
-        </div>
-      </div>`;
-    }
     const done = isDailyDone(t.id);
     return `<div class="task-card ${done?'done':''}" id="tc-${t.id}">
       <div class="task-check-area" onclick="animToggleDaily('${t.id}','tc-${t.id}')">
